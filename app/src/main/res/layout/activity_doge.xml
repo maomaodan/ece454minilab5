@@ -1,0 +1,20 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#0099cc"
+    tools:context="edu.wisc.ece.ece454minilab5.DogeActivity"
+    android:id="@+id/pic1">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+
+    <ImageView
+        android:layout_width="800dp"
+        android:layout_height="640dp"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal|bottom"
+        android:src="@drawable/plaindoge"/>
+</FrameLayout>
