@@ -17,9 +17,9 @@ import java.util.HashMap;
 public class ListViewLayoutActivity extends ListActivity {
     protected static int ID;
     private ArrayAdapter<String> mAdapter;
-    ArrayList<String> nameArray = new ArrayList<String>();
-    protected SharedPreferences namePrefs;
-    //protected ArrayList<String> FOLKS = new ArrayList<String>(Arrays.asList("add","studentA", "studentB", "studentC", "studentD"));
+    ArrayList<String> nameArray = new ArrayList<String>();          //array for names to be stored
+    protected SharedPreferences namePrefs;                      //shared preference instance
+
     public static final String PREF_NAME = "NAME";
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,16 +29,16 @@ public class ListViewLayoutActivity extends ListActivity {
         // Define a new adapter
 
 
-        namePrefs =getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-        HashMap <Integer, String> nameMap = (HashMap)namePrefs.getAll();
-        nameArray.add("add");
-        ID = nameMap.size();
-        for (int i = 1; i <= 10;i++)
+        namePrefs =getSharedPreferences(PREF_NAME, MODE_PRIVATE);       //get shared preference
+        HashMap <Integer, String> nameMap = (HashMap)namePrefs.getAll();    //read from the preference
+        nameArray.add("add");                           //"add" option for adding more students
+
+        for (int i = 1; i <= 20;i++)
         {
             if(nameMap.get(Integer.toString(i))!=null)
-            nameArray.add(nameMap.get(Integer.toString(i)));
+            nameArray.add(nameMap.get(Integer.toString(i)));        //read from list to reconstruct
         }
-
+        ID = nameMap.size();
         mAdapter = new ArrayAdapter<String>(this,
                 R.layout.activity_list_view_layout, nameArray);
 
@@ -53,7 +53,7 @@ public class ListViewLayoutActivity extends ListActivity {
 
                 if (id==0)
                 {
-                    Intent intent = new Intent (ListViewLayoutActivity.this,InputName.class);
+                    Intent intent = new Intent (ListViewLayoutActivity.this,InputName.class);   //if add is pressed jump to input names activity
                     startActivity(intent);
                 }
                 else
@@ -61,10 +61,21 @@ public class ListViewLayoutActivity extends ListActivity {
                     Toast.makeText(ListViewLayoutActivity.this,nameArray.get((int)id)+" is removed form the list!",Toast.LENGTH_SHORT).show();
                     nameArray.remove((int) id);
                     SharedPreferences.Editor editor = namePrefs.edit();
+                    int i = 0;
+                    int cnt = 0;
+                    for (i = 0; i < 20; i++)
+                    {
+                        if (cnt == id-1)
+                            break;
+                        if (namePrefs.getString(Integer.toString(i), "").length()!=0)
+                        {
+                            cnt++;
+                        }
+                    }
 
-                    editor.remove(Long.toString(id));
-                    editor.commit();
-                    ID--;
+                    editor.remove(Long.toString(i));
+                    editor.commit();                        //or remove the student from the list and preference
+
                 }
                 mAdapter.notifyDataSetChanged();
 

@@ -8,13 +8,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class InputName extends AppCompatActivity {
+public class InputName extends AppCompatActivity
+{
 
     private String name;
     SharedPreferences mPrefs;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_name);
 
@@ -28,15 +30,30 @@ public class InputName extends AppCompatActivity {
         mPrefs = getSharedPreferences(ListViewLayoutActivity.PREF_NAME, MODE_PRIVATE);
         TextView txt = (TextView)findViewById(R.id.editText);
         name = txt.getText().toString();
-        SharedPreferences.Editor editor = mPrefs.edit();
+        SharedPreferences.Editor editor = mPrefs.edit();        //editor for shared preference
 
-        ListViewLayoutActivity.ID++;
-        editor.putString(Integer.toString(ListViewLayoutActivity.ID), name);
-        editor.commit();
+        if (ListViewLayoutActivity.ID<20)
+            ListViewLayoutActivity.ID++;                            //creating index for each name, at most 20
+        else
+            ListViewLayoutActivity.ID = 0;
 
-
+        for (int i = 0; i < 20; i ++)
+        {
+            String tst = mPrefs.getString(Integer.toString(ListViewLayoutActivity.ID),"");
+            if (mPrefs.getString(Integer.toString(ListViewLayoutActivity.ID), "").length()==0)
+            {
+                editor.putString(Integer.toString(ListViewLayoutActivity.ID), name);        //add student
+                editor.commit();
+                break;
+            }
+            else
+            {
+                ListViewLayoutActivity.ID++;
+            }
+        }
 
         Intent intent = new Intent(InputName.this, ListViewLayoutActivity.class);
+
         startActivity(intent);
     }
     public void onGoBackCancel(View v)
