@@ -1,5 +1,6 @@
 package edu.wisc.ece.ece454minilab5;
 
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 public class ListViewLayoutActivity extends ListActivity {
 
     private ArrayAdapter<String> mAdapter;
-    private ArrayList<String> FOLKS = new ArrayList<String>(Arrays.asList("studentA", "studentB", "studentC", "studentD"));
+    protected ArrayList<String> FOLKS = new ArrayList<String>(Arrays.asList("add","studentA", "studentB", "studentC", "studentD"));
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,13 @@ public class ListViewLayoutActivity extends ListActivity {
                                     int position, long id) {
                 //Your code here...
                 Toast.makeText(ListViewLayoutActivity.this,FOLKS.get((int)id)+" is removed form the list!",Toast.LENGTH_SHORT).show();
-                FOLKS.remove((int)id);
+                if (id==0)
+                {
+
+                }
+                else
+                    FOLKS.remove((int)id);
+
                 mAdapter.notifyDataSetChanged();
 
             }

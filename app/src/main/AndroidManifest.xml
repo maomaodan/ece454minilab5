@@ -46,6 +46,8 @@
             android:label="@string/title_activity_doge"
             android:theme="@style/FullscreenTheme" >
         </activity>
+        <activity android:name=".InputName" >
+        </activity>
     </application>
 
 </manifest>
