@@ -34,5 +34,5 @@
         android:id="@+id/editText"
         android:layout_above="@+id/button_cancel"
         android:layout_centerHorizontal="true"
-        android:text="Enter Name" />
+        android:hint="Enter Name" />
 </RelativeLayout>
