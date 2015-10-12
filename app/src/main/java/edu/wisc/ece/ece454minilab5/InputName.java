@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class InputName extends AppCompatActivity {
 
-    private String name;
+    private String nameString;
     SharedPreferences mPrefs;
 
     @Override
@@ -21,17 +21,22 @@ public class InputName extends AppCompatActivity {
 
 
 
-
     }
     public void onGoBackSave(View v)
     {
         mPrefs = getSharedPreferences(ListViewLayoutActivity.PREF_NAME, MODE_PRIVATE);
         TextView txt = (TextView)findViewById(R.id.editText);
-        name = txt.getText().toString();
+
+
+        String txtAdd= txt.getText().toString();
+
+
         SharedPreferences.Editor editor = mPrefs.edit();
 
-        ListViewLayoutActivity.ID++;
-        editor.putString(Integer.toString(ListViewLayoutActivity.ID), name);
+        nameString = mPrefs.getString("student","");
+        nameString = nameString + txtAdd+",";
+        editor.clear();
+        editor.putString("student", nameString);
         editor.commit();
 
 

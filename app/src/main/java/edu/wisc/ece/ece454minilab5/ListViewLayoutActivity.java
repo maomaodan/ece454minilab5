@@ -21,6 +21,9 @@ public class ListViewLayoutActivity extends ListActivity {
     protected SharedPreferences namePrefs;
     //protected ArrayList<String> FOLKS = new ArrayList<String>(Arrays.asList("add","studentA", "studentB", "studentC", "studentD"));
     public static final String PREF_NAME = "NAME";
+    String nameString;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,14 +33,38 @@ public class ListViewLayoutActivity extends ListActivity {
 
 
         namePrefs =getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-        HashMap <Integer, String> nameMap = (HashMap)namePrefs.getAll();
+        //HashMap <Integer, String> nameMap = (HashMap)namePrefs.getAll();
         nameArray.add("add");
-        ID = nameMap.size();
+        //update student list
+/*
+        SharedPreferences.Editor editor = namePrefs.edit();
+        editor.clear();
+        editor.commit();
+*/
+        nameString = namePrefs.getString("student","");
+        int prevIndex = 0;
+        for (int i = 0 ; i < nameString.length();i++)
+        {
+            if(nameString.charAt(i)==',')
+            {
+                nameArray.add(nameString.substring(prevIndex, i));
+                prevIndex=i+1;
+            }
+            else if (i ==(nameString.length()-1))
+                nameArray.add(nameString);
+
+        }
+
+
+
+
+
+      /*  ID = nameMap.size();
         for (int i = 1; i <= 10;i++)
         {
             if(nameMap.get(Integer.toString(i))!=null)
             nameArray.add(nameMap.get(Integer.toString(i)));
-        }
+        }*/
 
         mAdapter = new ArrayAdapter<String>(this,
                 R.layout.activity_list_view_layout, nameArray);
@@ -61,14 +88,25 @@ public class ListViewLayoutActivity extends ListActivity {
                     Toast.makeText(ListViewLayoutActivity.this,nameArray.get((int)id)+" is removed form the list!",Toast.LENGTH_SHORT).show();
                     nameArray.remove((int) id);
                     SharedPreferences.Editor editor = namePrefs.edit();
+                    nameString = "";
+                    for (int i = 1; i < nameArray.size();i++)
+                    {
 
-                    editor.remove(Long.toString(id));
+                        nameString = nameString + nameArray.get(i)+",";
+                    }
+                    editor.clear();
+                    editor.putString("student",nameString);
                     editor.commit();
-                    ID--;
+
                 }
+
+
+
+
                 mAdapter.notifyDataSetChanged();
 
             }
+
         };
 
         // Get the ListView and wired the listener
